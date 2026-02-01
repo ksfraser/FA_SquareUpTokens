@@ -135,7 +135,7 @@
 - Implement exception translator for FA decoupling
 
 ### Phase 2: Business Logic
-- Implement CSV processing with SRP classes
+- Implement processing with SRP classes
 - Create validation pipeline
 - Develop DAO layer with transaction management
 
