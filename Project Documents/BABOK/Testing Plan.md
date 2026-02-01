@@ -1,5 +1,21 @@
 # Testing Plan
 
+## Database Schema
+
+The module uses a single table to store Square tokens associated with stock IDs.
+
+### Table Structure
+
+The table is named `1_square_tokens` in the database (where `1_` is the FrontAccounting table prefix `TB_PREF`).
+
+| # | Name         | Type        | Collation          | Attributes | Null | Default              | Comments | Extra                          | Action       |
+|---|--------------|-------------|--------------------|------------|------|----------------------|----------|--------------------------------|--------------|
+| 1 | stock_id    | Index      | varchar(255)      | latin1_swedish_ci |     | No   | None                 |         |                                | Change Change | Drop Drop |
+| 2 | square_token| Index      | varchar(255)      | latin1_swedish_ci |     | Yes  | NULL                 |         | UNIQUE                         | Change Change | Drop Drop |
+| 3 | last_updated| timestamp  |                    |            |      | No   | current_timestamp() |         | ON UPDATE CURRENT_TIMESTAMP() | Change Change | Drop Drop |
+
+**Note**: For the module's SQL installation script, the table is defined as `0_square_tokens` (the `0_` is replaced by FrontAccounting with the actual prefix). The `square_token` field is unique to prevent duplicates.
+
 ## Unit Tests
 
 ### Objectives
@@ -7,9 +23,9 @@ Test individual components in isolation to ensure correctness.
 
 ### Test Cases
 1. **CSV Parsing**
-   - Input: Sample CSV with stock_id and square_token columns.
-   - Expected: Correct extraction of data pairs.
-   - Edge cases: Missing columns, extra columns, malformed data.
+   - Input: Sample CSV with SKU and Token columns.
+   - Expected: Correct extraction of stock_id and square_token pairs.
+   - Edge cases: Empty CSV (error), missing SKU or Token columns (error), duplicate SKUs (use first, note), blank SKUs (skip, note), malformed rows.
 
 2. **Database Nulling**
    - Input: Table with existing square_tokens.
@@ -31,6 +47,21 @@ Test individual components in isolation to ensure correctness.
    - Action: Count stock_ids and updated tokens.
    - Expected: Accurate counts returned.
 
+6. **Transaction Management**
+   - Input: Valid CSV.
+   - Action: Simulate failure during update.
+   - Expected: All changes rolled back, no partial updates.
+
+7. **Admin Nullify**
+   - Input: Table with tokens.
+   - Action: Nullify all tokens.
+   - Expected: All square_tokens set to NULL.
+
+8. **Admin Insert Stock IDs**
+   - Input: Table missing some stock_ids from master_stock.
+   - Action: Insert from master_stock.
+   - Expected: All stock_ids present, no duplicates.
+
 ### Tools
 - PHPUnit for PHP unit testing.
 
@@ -42,14 +73,18 @@ Test interactions between components, including database and UI.
 ### Test Cases
 1. **Full Import Process**
    - Simulate UI file upload.
-   - Process CSV, perform nulling, insertion, updates.
+   - Process CSV, perform nulling, insertion, updates in transaction.
    - Verify database state and reported counts.
 
 2. **Error Handling**
-   - Invalid CSV: Check error reporting.
+   - Invalid CSV: Empty file, missing SKU/Token columns – check error messages.
    - Database connection failure: Rollback and notify.
 
-3. **Data Consistency**
+3. **Admin Actions**
+   - Nullify tokens: Confirm popup, verify all tokens nulled.
+   - Insert stock_ids: Verify insertion from master_stock.
+
+4. **Data Consistency**
    - Ensure no duplicates, correct relationships.
 
 ### Tools

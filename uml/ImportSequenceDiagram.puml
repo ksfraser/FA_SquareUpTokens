@@ -1,0 +1,12 @@
+@startuml Sequence Diagram
+User -> UI: Upload CSV
+UI -> Processor: Validate and process
+Processor -> DAO: Begin transaction
+Processor -> DAO: Null tokens
+Processor -> DAO: Insert stock_ids
+Processor -> DAO: Update tokens
+DAO -> DB: Execute queries
+DAO -> Processor: Commit/Rollback
+Processor -> UI: Report results
+UI -> User: Display notifications
+@enduml

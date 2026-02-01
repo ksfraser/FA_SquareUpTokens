@@ -12,10 +12,10 @@ Develop a module to import Square Up tokens, storing stock_id and square_token i
 ## Scope
 - Sole purpose: Upload the Square export CSV and update the token table.
 - Does not perform any further actions, such as updating Square from FrontAccounting.
-- Other modules are responsible for updating Square, etc., from FA.
+- Other modules are responsible for using the tokens to update Square, etc., from FA (out of scope for this module).
 
 ## Benefits
-- Improved price accuracy in SquareUp
+- Enables seamless integration with Square for catalog updates via other modules
 
 ## Costs
 - Development time

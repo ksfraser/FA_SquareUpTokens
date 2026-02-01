@@ -1,0 +1,6 @@
+Module Name: FA_SquareUpTokens
+Author: kfraser
+Description: Module to import Square tokens from CSV into FrontAccounting
+Version: 1.0
+FA Version: 2.3.22
+PHP Version: 7.3

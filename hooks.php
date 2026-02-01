@@ -4,8 +4,8 @@ define( 'ModName', 'ksf_square' );
 define ('SS_' . ModName, 111<<8);
 $ksf_square_prefsDB = ModName . "_prefs";
  */
-define ('SS_ksf_square', 111<<8);
-$ksf_square_prefsDB = "ksf_square_prefs";
+define ('SS_FA_SQUAREUPTOKENS', 112<<8); // Unique security bit for the module
+$fa_squareuptokens_prefsDB = "fa_squareuptokens_prefs";
 
 /***************************************************************************************
  *
@@ -20,8 +20,8 @@ $ksf_square_prefsDB = "ksf_square_prefs";
  * 	hook_authenticate (useful for REST?)
  *
  * ***********************************************************************************/
-class hooks_ksf_square extends hooks {
-	var $module_name = 'Square Sync'; 
+class hooks_FA_SquareUpTokens extends hooks {
+	var $module_name = 'FA SquareUp Tokens'; 
 
 	/*
 		Install additonal menu options provided by module
@@ -36,16 +36,16 @@ class hooks_ksf_square extends hooks {
 			//case 'AP':
 			//case 'orders':
 			case 'stock':
-				$app->add_rapp_function(2, _('Square Sync'), 
-					$path_to_root.'/modules/ksf_square/ksf_square.php', 'SA_ksf_square');
+				$app->add_rapp_function(2, _('SquareUp Tokens'), 
+					$path_to_root.'/modules/FA_SquareUpTokens/FA_SquareUpTokens.php', 'SA_FA_SQUAREUPTOKENS');
 		}
 	}
 
 	function install_access()
 	{
-		$security_sections[SS_ksf_square] = _("Square Sync");
+		$security_sections[SS_FA_SQUAREUPTOKENS] = _("SquareUp Tokens");
 
-		$security_areas['SA_ksf_square'] = array(SS_ksf_square|101, _("Square Sync"));
+		$security_areas['SA_FA_SQUAREUPTOKENS'] = array(SS_FA_SQUAREUPTOKENS|101, _("SquareUp Tokens"));
 
 		return array($security_areas, $security_sections);
 	}

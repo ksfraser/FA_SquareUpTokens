@@ -1,0 +1,31 @@
+@startuml Class Diagram
+class FA_SquareUpTokens {
+  +tabs
+  +define_table()
+  +form_import()
+  +form_admin()
+}
+
+class CsvValidator {
+  +validate(filePath)
+  +hasRequiredColumns(headers)
+}
+
+class ExceptionTranslator {
+  +translate(exception)
+}
+
+interface CsvValidatorInterface {
+  +validate(filePath)
+  +hasRequiredColumns(headers)
+}
+
+interface ExceptionTranslatorInterface {
+  +translate(exception)
+}
+
+FA_SquareUpTokens --> CsvValidator
+FA_SquareUpTokens --> ExceptionTranslator
+CsvValidator ..|> CsvValidatorInterface
+ExceptionTranslator ..|> ExceptionTranslatorInterface
+@enduml

@@ -1,0 +1,22 @@
+@startuml Flowchart
+start
+:User selects CSV;
+:Validate CSV (columns, not empty);
+if (Invalid?) then (yes)
+  :Display error;
+  stop
+endif
+:Begin transaction;
+:Null all square_tokens;
+:Insert stock_ids from master_stock;
+:Parse CSV, filter duplicates;
+:Update tokens for matching stock_ids;
+if (Error?) then (yes)
+  :Rollback;
+  :Display error;
+  stop
+endif
+:Commit;
+:Report counts (updated, skipped, not in table);
+stop
+@enduml

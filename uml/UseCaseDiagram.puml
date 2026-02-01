@@ -1,0 +1,18 @@
+@startuml Use Case Diagram
+actor User
+actor Administrator
+
+User --> (Import Square Tokens)
+Administrator --> (Admin Actions)
+
+note right of (Import Square Tokens)
+  -- Preconditions: CSV with SKU/Token
+  -- Main Flow: Upload, null, insert, update in transaction
+  -- Exceptions: Invalid CSV, DB errors
+end note
+
+note right of (Admin Actions)
+  -- Nullify tokens (with confirm)
+  -- Insert stock_ids from master_stock
+end note
+@enduml

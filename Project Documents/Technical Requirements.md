@@ -34,7 +34,7 @@
 - **Avoid "Headers Already Sent" Issues**: No immediate echo output; all HTML generated as strings and output at once
 - **Reusable Components**: Table classes for displaying data with edit/delete actions, Button classes for OK/Cancel operations
 - **Composite Pattern**: Page objects containing tables, forms, fields, and buttons with recursive display() calls
-- **SRP UI Components**: Complex UI sections extracted into dedicated classes (e.g., CsvImportForm, SearchUpdateForm) implementing HTML library interfaces
+- **SRP UI Components**: Complex UI sections extracted into dedicated classes implementing HTML library interfaces
 - **Consistent UI**: All forms, tables, and UI elements generated through the library
 - **Separation of Concerns**: UI generation separated from business logic
 
@@ -61,11 +61,12 @@
 - **Infrastructure Layer**: External services (logging, file handling, etc.)
 
 ### Key Components
-- **Validators**: Separate validation classes for different data types
-- **Processors**: SRP classes for CSV processing, price updates, etc.
+- **Validators**: Separate validation classes for CSV format and data integrity
+- **Processors**: SRP classes for data processing and business logic
 - **Factories**: For creating complex objects with dependencies
-- **Utility Classes**: RoyalOrderHelper for centralized Royal Order management
-- **Exceptions**: Custom exception hierarchy for error handling
+- **Utility Classes**: For data handling, reporting, and infrastructure
+- **DAO Layer**: Wrap FA db_query calls with ksf_ModulesDAO (included as submodule from github.com/ksfraser/ksf_ModulesDAO), supporting transactions
+- **Exceptions**: Custom exception hierarchy, wrapped in a translator for FA decoupling (using display_notification, etc.)
 
 ## User Acceptance Testing (UAT)
 
@@ -100,9 +101,38 @@
 ## Implementation Roadmap
 
 ### Phase 1: Core Architecture
+- Include ksf_ModulesDAO as a submodule: `git submodule add https://github.com/ksfraser/ksf_ModulesDAO.git modules/ksf_modules_dao`
+- Include ksfraser/HTML as a submodule: `git submodule add https://github.com/ksfraser/html.git modules/ksfraser_html`
+- Include ksfraser/Exceptions as a submodule: `git submodule add https://github.com/ksfraser/Exceptions.git modules/ksfraser_exceptions`
+- Update submodules: `git submodule update --init --recursive`
+- For UAT/Prod, use composer.json with VCS repositories:
+  ```json
+  {
+    "repositories": [
+      {
+        "type": "vcs",
+        "url": "https://github.com/ksfraser/ksf_ModulesDAO.git"
+      },
+      {
+        "type": "vcs",
+        "url": "https://github.com/ksfraser/html.git"
+      },
+      {
+        "type": "vcs",
+        "url": "https://github.com/ksfraser/Exceptions.git"
+      }
+    ],
+    "require": {
+      "ksfraser/ksf_modules_dao": "dev-main",
+      "ksfraser/html": "dev-main",
+      "ksfraser/exceptions": "dev-main"
+    }
+  }
+  ```
 - Define interfaces and abstract classes
 - Implement dependency injection container
 - Create base validator and processor classes
+- Implement exception translator for FA decoupling
 
 ### Phase 2: Business Logic
 - Implement CSV processing with SRP classes
@@ -123,7 +153,7 @@
 ### Phase 5: Documentation and Deployment
 - Complete PHPDoc documentation
 - Create user manuals and API docs
-- Package for deployment
+- Package as FA module: Create _init directory with module info text file (name, author, etc.), include sql/en_US-new.sql
 - Final testing and validation
 
 ## Quality Assurance
