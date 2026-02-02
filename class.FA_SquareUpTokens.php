@@ -8,6 +8,17 @@
 require_once( 'modules/ksf_modules_common/class.table_interface.php' );
 require_once( 'modules/ksf_modules_common/class.generic_fa_interface.php' );
 
+// Autoloader for FA_SquareUpTokens classes
+spl_autoload_register(function ($class) {
+    if (strpos($class, 'FA_SquareUpTokens\\') === 0) {
+        $path = str_replace('FA_SquareUpTokens\\', '', $class);
+        $file = __DIR__ . '/src/' . str_replace('\\', '/', $path) . '.php';
+        if (file_exists($file)) {
+            require_once $file;
+        }
+    }
+});
+
 class FA_SquareUpTokens extends generic_fa_interface {
 	var $lastoid;
 	var $debug;

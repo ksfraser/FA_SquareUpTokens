@@ -7,6 +7,17 @@ $ksf_square_prefsDB = ModName . "_prefs";
 define ('SS_FA_SQUAREUPTOKENS', 112<<8); // Unique security bit for the module
 $fa_squareuptokens_prefsDB = "fa_squareuptokens_prefs";
 
+// Autoloader for FA_SquareUpTokens classes
+spl_autoload_register(function ($class) {
+    if (strpos($class, 'FA_SquareUpTokens\\') === 0) {
+        $path = str_replace('FA_SquareUpTokens\\', '', $class);
+        $file = __DIR__ . '/src/' . str_replace('\\', '/', $path) . '.php';
+        if (file_exists($file)) {
+            require_once $file;
+        }
+    }
+});
+
 /***************************************************************************************
  *
  * Hooks is what adds menus, etc to FrontAccounting.
