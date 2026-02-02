@@ -9,8 +9,8 @@ use FA_SquareUpTokens\Interfaces\ContainerInterface;
  */
 class Container implements ContainerInterface
 {
-    private array $services = [];
-    private array $instances = [];
+    private $services = [];
+    private $instances = [];
 
     /**
      * @inheritDoc
