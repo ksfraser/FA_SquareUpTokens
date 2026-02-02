@@ -30,12 +30,6 @@ spl_autoload_register(function ($class) {
         if (file_exists($file)) {
             require_once $file;
         }
-    } elseif (strpos($class, 'Ksfraser\\Common\\') === 0) {
-        $path = str_replace('Ksfraser\\Common\\', '', $class);
-        $file = __DIR__ . '/modules/ksf_common/src/' . str_replace('\\', '/', $path) . '.php';
-        if (file_exists($file)) {
-            require_once $file;
-        }
     }
 });
 
