@@ -4,9 +4,3 @@
 [submodule "modules/ksfraser_html"]
 	path = modules/ksfraser_html
 	url = https://github.com/ksfraser/html.git
-[submodule "modules/ksf_modules_common"]
-	path = modules/ksf_modules_common
-	url = https://github.com/ksfraser/ksf_modules_common.git
-[submodule "modules/ksf_common"]
-	path = modules/ksf_common
-	url = https://github.com/ksfraser/ksf_common.git
