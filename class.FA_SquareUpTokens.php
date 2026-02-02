@@ -8,8 +8,7 @@
 require_once( 'modules/ksf_modules_common/class.table_interface.php' );
 require_once( 'modules/ksf_modules_common/class.generic_fa_interface.php' );
 
-require_once( __DIR__ . '/FA_SquareUpTokens.inc.php' );
-
+require_once( 'modules/ksf_modules_dao/src/ksf_ModulesDAO.php' );
 
 // Autoloader for FA_SquareUpTokens classes
 spl_autoload_register(function ($class) {
