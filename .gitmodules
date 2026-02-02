@@ -3,4 +3,4 @@
 	url = https://github.com/ksfraser/ksf_ModulesDAO.git
 [submodule "modules/ksfraser_html"]
 	path = modules/ksfraser_html
-	url = https://github.com/ksfraser/html.git
+	url = https://github.com/ksfraser/HTML.git
