@@ -19,6 +19,24 @@ spl_autoload_register(function ($class) {
         if (file_exists($file)) {
             require_once $file;
         }
+    } elseif (strpos($class, 'Ksfraser\\HTML\\') === 0) {
+        $path = str_replace('Ksfraser\\HTML\\', '', $class);
+        $file = __DIR__ . '/modules/ksfraser_html/src/Ksfraser/HTML/' . str_replace('\\', '/', $path) . '.php';
+        if (file_exists($file)) {
+            require_once $file;
+        }
+    } elseif (strpos($class, 'Ksfraser\\ModulesDAO\\') === 0) {
+        $path = str_replace('Ksfraser\\ModulesDAO\\', '', $class);
+        $file = __DIR__ . '/modules/ksf_modules_dao/src/' . str_replace('\\', '/', $path) . '.php';
+        if (file_exists($file)) {
+            require_once $file;
+        }
+    } elseif (strpos($class, 'Ksfraser\\Common\\') === 0) {
+        $path = str_replace('Ksfraser\\Common\\', '', $class);
+        $file = __DIR__ . '/modules/ksf_common/src/' . str_replace('\\', '/', $path) . '.php';
+        if (file_exists($file)) {
+            require_once $file;
+        }
     }
 });
 
@@ -92,11 +110,11 @@ class FA_SquareUpTokens extends generic_fa_interface {
 	function form_import()
 	{
 		try {
-			$form = new \HtmlElement('form', ['method' => 'post', 'enctype' => 'multipart/form-data']);
-			$form->addChild(new \HtmlElement('input', ['type' => 'file', 'name' => 'csv_file', 'accept' => '.csv']));
-			$form->addChild(new \HtmlElement('label', [], 'Skip stock IDs not in FA: '));
-			$form->addChild(new \HtmlElement('input', ['type' => 'checkbox', 'name' => 'skip_missing_skus', 'value' => '1']));
-			$form->addChild(new \HtmlElement('input', ['type' => 'submit', 'value' => 'Upload and Import']));
+			$form = new \Ksfraser\HTML\HtmlElement('form', ['method' => 'post', 'enctype' => 'multipart/form-data']);
+			$form->addChild(new \Ksfraser\HTML\HtmlElement('input', ['type' => 'file', 'name' => 'csv_file', 'accept' => '.csv']));
+			$form->addChild(new \Ksfraser\HTML\HtmlElement('label', [], 'Skip stock IDs not in FA: '));
+			$form->addChild(new \Ksfraser\HTML\HtmlElement('input', ['type' => 'checkbox', 'name' => 'skip_missing_skus', 'value' => '1']));
+			$form->addChild(new \Ksfraser\HTML\HtmlElement('input', ['type' => 'submit', 'value' => 'Upload and Import']));
 			echo $form->render();
 		} catch (\Exception $e) {
 			display_error("Error rendering form: " . $e->getMessage());
@@ -126,9 +144,9 @@ class FA_SquareUpTokens extends generic_fa_interface {
 				$handler->handle($_POST['action']);
 			}
 
-			$form = new \HtmlElement('form', ['method' => 'post']);
-			$form->addChild(new \HtmlElement('button', ['type' => 'submit', 'name' => 'action', 'value' => 'nullify'], 'Nullify All Tokens'));
-			$form->addChild(new \HtmlElement('button', ['type' => 'submit', 'name' => 'action', 'value' => 'insert'], 'Insert Stock IDs from Master Stock'));
+			$form = new \Ksfraser\HTML\HtmlElement('form', ['method' => 'post']);
+			$form->addChild(new \Ksfraser\HTML\HtmlElement('button', ['type' => 'submit', 'name' => 'action', 'value' => 'nullify'], 'Nullify All Tokens'));
+			$form->addChild(new \Ksfraser\HTML\HtmlElement('button', ['type' => 'submit', 'name' => 'action', 'value' => 'insert'], 'Insert Stock IDs from Master Stock'));
 			echo $form->render();
 		} catch (\Exception $e) {
 			display_error("Error in admin form: " . $e->getMessage());
