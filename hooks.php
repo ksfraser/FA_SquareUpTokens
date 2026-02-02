@@ -32,7 +32,7 @@ spl_autoload_register(function ($class) {
  *
  * ***********************************************************************************/
 class hooks_FA_SquareUpTokens extends hooks {
-	var $module_name = 'FA SquareUp Tokens'; 
+	var $module_name = 'FA_SquareUp_Tokens'; 
 
 	/*
 		Install additonal menu options provided by module
@@ -47,16 +47,16 @@ class hooks_FA_SquareUpTokens extends hooks {
 			//case 'AP':
 			//case 'orders':
 			case 'stock':
-				$app->add_rapp_function(2, _('SquareUp Tokens'), 
+				$app->add_rapp_function(2, _('SquareUp_Tokens'), 
 					$path_to_root.'/modules/FA_SquareUpTokens/FA_SquareUpTokens.php', 'SA_FA_SQUAREUPTOKENS');
 		}
 	}
 
 	function install_access()
 	{
-		$security_sections[SS_FA_SQUAREUPTOKENS] = _("SquareUp Tokens");
+		$security_sections[SS_FA_SQUAREUPTOKENS] = _("SquareUp_Tokens");
 
-		$security_areas['SA_FA_SQUAREUPTOKENS'] = array(SS_FA_SQUAREUPTOKENS|101, _("SquareUp Tokens"));
+		$security_areas['SA_FA_SQUAREUPTOKENS'] = array(SS_FA_SQUAREUPTOKENS|101, _("SquareUp_Tokens"));
 
 		return array($security_areas, $security_sections);
 	}
@@ -65,8 +65,9 @@ class hooks_FA_SquareUpTokens extends hooks {
 	//
 	function install_extension($check_only=true)
 	{
-		require_once( 'class.ksf_square.php' );
-		$cl = new ksf_square( $ksf_square_prefsDB );
+		require_once( 'class.FA_SquareUpTokens.php' );
+		//$cl = new ksf_square( $ksf_square_prefsDB );
+		$cl =  new FA_SquareUpTokens( FA_SQUAREUPTOKENS_PREFS );
 		$cl->module_install();
 		return true;
 	}
@@ -203,14 +204,18 @@ class hooks_FA_SquareUpTokens extends hooks {
 	{
 		return true;
      		global $db_connections;
+			//array file => vars
+			//			table
+			//			field
+			//			properties
                 $updates = array(
-                        //'install_myapp.sql' => array('assets'),
-			'sql/crm_campaign_types.sql' => array('crm_campaign_types'),
-			'sql/crm_mailinglist.sql' => array('crm_mailinglist'),
+                        //'filename.sql' => array('table', 'field(opt)', 'property'),
+			'sql/square_tokens.sql' => array('square_tokens'),
 
                 );
 
-                return $this->update_databases($company, $updates, $check_only);	}
+                return $this->update_databases($company, $updates, $check_only);	
+	}
 	//
 	//	This method is called when extension is deactivated for company.
 	//
@@ -222,7 +227,8 @@ class hooks_FA_SquareUpTokens extends hooks {
                         'drop_myapp.sql' => array('assets')
                 );
 
-		return $this->update_databases($company, $updates, $check_only);	}
+		return $this->update_databases($company, $updates, $check_only);	
+	}
 
 	 */
 }
