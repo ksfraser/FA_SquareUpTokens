@@ -110,12 +110,22 @@ class FA_SquareUpTokens extends generic_fa_interface {
 	function form_import()
 	{
 		try {
+            /*
 			$form = new \Ksfraser\HTML\HtmlElement('form', ['method' => 'post', 'enctype' => 'multipart/form-data']);
 			$form->addChild(new \Ksfraser\HTML\HtmlElement('input', ['type' => 'file', 'name' => 'csv_file', 'accept' => '.csv']));
 			$form->addChild(new \Ksfraser\HTML\HtmlElement('label', [], 'Skip stock IDs not in FA: '));
 			$form->addChild(new \Ksfraser\HTML\HtmlElement('input', ['type' => 'checkbox', 'name' => 'skip_missing_skus', 'value' => '1']));
 			$form->addChild(new \Ksfraser\HTML\HtmlElement('input', ['type' => 'submit', 'value' => 'Upload and Import']));
 			echo $form->render();
+            */
+            start_form(true);
+			start_table(TABLESTYLE2);
+			table_section_title("Import Square Tokens from CSV");
+			file_row(_("CSV File:"), 'csv_file', 'csv_file');
+			check_row(_("Skip stock IDs not in FA:"), 'skip_missing_skus', null, false, _('If checked, stock IDs not found in FA will be skipped instead of added.'));
+			end_table(1);
+			submit_center('upload_import', _("Upload and Import"));
+			end_form();
 		} catch (\Exception $e) {
 			display_error("Error rendering form: " . $e->getMessage());
 		}
@@ -143,11 +153,19 @@ class FA_SquareUpTokens extends generic_fa_interface {
 				$handler = $this->container->get('adminHandler');
 				$handler->handle($_POST['action']);
 			}
-
+/*
 			$form = new \Ksfraser\HTML\HtmlElement('form', ['method' => 'post']);
 			$form->addChild(new \Ksfraser\HTML\HtmlElement('button', ['type' => 'submit', 'name' => 'action', 'value' => 'nullify'], 'Nullify All Tokens'));
 			$form->addChild(new \Ksfraser\HTML\HtmlElement('button', ['type' => 'submit', 'name' => 'action', 'value' => 'insert'], 'Insert Stock IDs from Master Stock'));
 			echo $form->render();
+*/
+            start_form(true);
+			start_table(TABLESTYLE2);
+			table_section_title("Admin Actions");
+			end_table(1);
+			submit_center_first('nullify', _("Nullify All Tokens"));
+			submit_center_last('insert', _("Insert Stock IDs from Master Stock"));
+			end_form();            *
 		} catch (\Exception $e) {
 			display_error("Error in admin form: " . $e->getMessage());
 		}
